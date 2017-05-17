@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/new/prefix">
+        <file>rc/window_oscillograph.png</file>
+        <file>rc/window_oscillograph32.png</file>
+        <file>rc/window_oscillograph24.png</file>
+        <file>rc/Stats2.ico</file>
+    </qresource>
+</RCC>
