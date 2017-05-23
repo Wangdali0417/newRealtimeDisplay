@@ -60,10 +60,14 @@ void Widget::initialization()
     QPen pen;     // green darkGreen blue darkBlue cyan darkCyan red darkRed
     switch(QString(channelIndex).toInt())
     {
-        case 0:  pen.setColor(Qt::darkRed);   break;
-        case 1:  pen.setColor(Qt::darkBlue);  break;
-        case 2:  pen.setColor(Qt::darkGreen); break;
-        case 3:  pen.setColor(Qt::darkCyan);  break;
+        //case 0:  pen.setColor(Qt::darkRed);   break;
+        case 0:  pen.setColor(Qt::red);   break;
+       // case 1:  pen.setColor(Qt::darkBlue);  break;
+        case 1:  pen.setColor(Qt::yellow);  break;
+        //case 2:  pen.setColor(Qt::darkGreen); break;
+        case 2:  pen.setColor(Qt::green); break;
+        //case 3:  pen.setColor(Qt::darkCyan);  break;
+        case 3:  pen.setColor(Qt::blue);  break;
         default: pen.setColor(Qt::darkGreen); break;
     }
 
@@ -168,11 +172,10 @@ void Widget::keyPressEvent(QKeyEvent *event)
         break;
 //![1]
     case Qt::Key_A:
-
-       m_chart->scroll(-10, 0);
+       m_chart->scroll(50, 0);
         break;
     case Qt::Key_D:
-       m_chart->scroll(10, 0);
+       m_chart->scroll(50, 0);
         break;
     case Qt::Key_W:
        m_chart->scroll(0, 10);

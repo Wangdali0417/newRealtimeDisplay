@@ -1,4 +1,4 @@
-#include "datareciever.h"
+ #include "datareciever.h"
 
 DataReciever::DataReciever()
 {
@@ -77,7 +77,7 @@ void DataReciever::dataRecieving()
     // scan which microphone channels are connected to hardware
     //scan_channels();
     //-----------------------------------------------------------------------------------------------
-    // Wangdali modified
+    // Wangdali modified to show connected channel infos
     bool isScaned ;
     isScaned = scan_channels();
     if(isScaned)
@@ -130,13 +130,13 @@ void DataReciever::dataRecieving()
     //cout << '\r' << RECORDING_TIME << ".. ";
     int lost_count = 0;
     int current_recording_time = 0;
-    int chunkcount = 0;
+    //int chunkcount = 0;
 
 
     // Run this loop forever until the recording time is covered
     // Press Ctrl+C to stop recording in between
     //qint64 recordIndex = 0;
-    emit plot();
+    emit startplot();
     while(1){
             //recording time
         if(int(global_count/NO_OF_SAMPLES_IN_SEC) > current_recording_time) {
@@ -175,7 +175,7 @@ void DataReciever::dataRecieving()
             else{   //write chunk into files
 
 
-                double time_start = (double)clock();
+                //double time_start = (double)clock();
 
                 freeSpace.acquire(1024*8);
                 //qDebug() << "worker freeSpace: " << freeSpace.available();
@@ -186,7 +186,7 @@ void DataReciever::dataRecieving()
                 //qDebug() << "worker usedSpace: " << usedSpace.available();
 
 
-                double time_end = (double)clock();
+                //double time_end = (double)clock();
                 //qDebug() << "write_chunk_data: " << QString::number(time_end - time_start) << "\n";
 
 
@@ -244,7 +244,7 @@ void DataReciever::dataRecieving()
 
 void DataReciever::handleTimeout()
 {
-    emit plot();
+    emit startplot();
 
 }
 

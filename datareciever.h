@@ -41,7 +41,7 @@ public slots:
      void handleTimeout();
 
 signals:
-     void plot();
+     void startplot();
      void showText(const QString &str);
      void cont();
      void changeFlagComp();

@@ -38,8 +38,8 @@ public slots:
     void changeFlag();     // Change the global variable 'flage'
     void changeFlagComp(); // Change the global variable 'flageComp'
     void showConnectedChannel();
-    void showText(const QString &str); // Show text from thread worker
-    void cont();                       // Respond the signal from worker
+    void showText(const QString &str); // Show text from thread datareciever
+    void cont();                       // Respond the signal from datareciever to enable run button
     void tileSubWindowsVertically();
     void mdiSubWindowShowMaxiOrNorm();
     void mdiSubWindowShowMaximized();

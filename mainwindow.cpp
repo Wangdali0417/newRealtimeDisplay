@@ -26,7 +26,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initialization()
 {
-    // Step 1. Init UI Widget
+    // Step 1. Initialize UI Widget(Buttons)
     // -------------------------------------------------------------- //
     // ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     // ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -38,7 +38,7 @@ void MainWindow::initialization()
     // -------------------------------------------------------------- //
     addWidgetToMDI();
 
-    // Step 3. Start workerThread and processThread
+    // Step 3. Start datareciever Thread and signalprocessing Thread
     // -------------------------------------------------------------- //
     DataReciever *dataRecv = new DataReciever();
     dataRecv->moveToThread(&recieveThread);
@@ -58,7 +58,7 @@ void MainWindow::initialization()
     }
     signalProc->moveToThread(&processThread);
     QObject::connect(&processThread, SIGNAL(finished()), signalProc, SLOT(deleteLater()));
-    QObject::connect(dataRecv, SIGNAL(plot()), signalProc->myTimer, SLOT(start()), Qt::QueuedConnection);
+    QObject::connect(dataRecv, SIGNAL(startplot()), signalProc->myTimer, SLOT(start()), Qt::QueuedConnection);
     processThread.start();
 
 }
