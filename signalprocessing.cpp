@@ -8,7 +8,7 @@ SignalProcessing::SignalProcessing(QObject *parent) :
     QObject(parent)
 {
     myTimer = new QTimer(this);
-    myTimer->setInterval(100);
+    // myTimer->setInterval(500);
     // QObject::connect(myTimer, SIGNAL(timeout()), this, SLOT(testDrawCurve()));
     QObject::connect(myTimer, SIGNAL(timeout()), this, SLOT(handleTimeout()));
 
@@ -22,12 +22,14 @@ SignalProcessing::~SignalProcessing()
 
 void SignalProcessing::handleTimeout()
 {
+    myTimer->stop();
     this->filter();     // Data filtering
 
     //double time_start = (double)clock();
     this->drawCurve();  // Draw data on chartview
-    // double time_end = (double)clock();
-    // qDebug() << "drawCurve: " << QString::number(time_end - time_start) << "\n";
+    //double time_end = (double)clock();
+    //qDebug() << "drawCurve: " << QString::number(time_end - time_start) << "\n";
+    myTimer->start();
 }
 
 
@@ -126,7 +128,7 @@ void SignalProcessing::filter()
     for(qint64 j = 0; j < ChanNumber; j++)
     {
         // qDebug() << "bufferPosition[" << j << "]: " << bufferPosition[j];
-        for(qint64 n = 0; n < filteredRange; n += 6000)
+        for(qint64 n = 0; n < filteredRange; n += downSamplingInterval)
         {
             //usedSpace.acquire(4096);
             qint64 sum = 0;
@@ -148,7 +150,7 @@ void SignalProcessing::filter()
                 temPosition++;
             }
 
-            bufferPosition[j] = (bufferPosition[j] + 6000) % bufferSize;
+            bufferPosition[j] = (bufferPosition[j] + downSamplingInterval) % bufferSize;
             myFilteredData[j][filteredPosition[j]++] = sum;//notice
            //freeSpace.release(4096);
 

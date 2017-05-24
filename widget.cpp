@@ -81,7 +81,7 @@ void Widget::initialization()
     // Step 2. Add axisX and axisY to m_chart
     // -------------------------------------------------------------- //
     axisX = new QValueAxis();
-    axisX->setRange(0, 14000);
+    axisX->setRange(0, sampleRange);
     axisX->setLabelFormat("%g");
     axisX->setTitleText("Samples");
 
@@ -92,7 +92,7 @@ void Widget::initialization()
     m_chart->setAxisX(axisX, m_series);
     m_chart->setAxisY(axisY, m_series);
     m_chart->legend()->hide();
-    m_chart->setTitle(QString("Data from the microphone %1").arg(channelIndex));
+    //m_chart->setTitle(QString("Data from the microphone %1").arg(channelIndex));
 
     // Step 3. Init chartView and add chartview to widget
     // -------------------------------------------------------------- //
@@ -110,6 +110,12 @@ void Widget::initialization()
     // Step 4. Signals and Slots connection
     // -------------------------------------------------------------- //
     QObject::connect(this, SIGNAL(mouseWheelZoom(bool,bool)), this, SLOT(viewZoom(bool,bool)));
+    QObject::connect(m_series, SIGNAL(pointsReplaced()), chartView, SLOT(update()));
+}
+
+void Widget::changeChartViewTitle(const QString &str)
+{
+    m_chart->setTitle(str);
 }
 
 void Widget::wheelEvent(QWheelEvent *event)
@@ -172,7 +178,7 @@ void Widget::keyPressEvent(QKeyEvent *event)
         break;
 //![1]
     case Qt::Key_A:
-       m_chart->scroll(50, 0);
+       m_chart->scroll(-50, 0);
         break;
     case Qt::Key_D:
        m_chart->scroll(50, 0);

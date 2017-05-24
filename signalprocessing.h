@@ -7,7 +7,7 @@
 #include <QtGlobal>
 #include <QtCore/QTimer>
 #include <QtCharts/QChartGlobal>
-
+#include <ctime>
 #include "lowpassfilterparam.h"
 #include "global.h"
 
@@ -37,7 +37,8 @@ private:
     qint64 filteredPosition[ChanNumber];
     qint64 filteredDataCount[ChanNumber];
     qint64 myFilteredData[ChanNumber][filteredDataNumber];
-    enum {plotInterval = 100, sampleRange = 14000, timeInterval = 1000, sampleInterval = 10, filteredRange = 6000*100};
+    enum {plotInterval = 100, timeInterval = 1000, sampleInterval = 10,
+          filteredRange = 6000*100,downSamplingInterval = 2000};
     //filteredRange = 1024 * 8 * 150
 
 public:

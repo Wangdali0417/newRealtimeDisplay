@@ -58,6 +58,7 @@ public:
     void closeEvent(QCloseEvent *event);     // Overload closeEvent to prevent the widget to be closed
     void keyPressEvent(QKeyEvent *event);
     void mouseDoubleClickEvent(QMouseEvent *event);
+    void changeChartViewTitle(const QString &str);
 
 signals:
     void mouseDoubleClicked();

@@ -58,7 +58,8 @@ void MainWindow::initialization()
     }
     signalProc->moveToThread(&processThread);
     QObject::connect(&processThread, SIGNAL(finished()), signalProc, SLOT(deleteLater()));
-    QObject::connect(dataRecv, SIGNAL(startplot()), signalProc->myTimer, SLOT(start()), Qt::QueuedConnection);
+    QObject::connect(dataRecv, SIGNAL(startplot()), signalProc, SLOT(handleTimeout()), Qt::QueuedConnection);
+
     processThread.start();
 
 }
@@ -167,6 +168,7 @@ void MainWindow::showConnectedChannel()
     for (int i = 0; i<ChanNumber;i++)
     {
         ui->MainTextBrowser->append(saveConnectedChannel[i]);
+        this->myWidgetChannel.at(i)->changeChartViewTitle("Data from Microphone: "+saveConnectedChannel[i]);
     }
 }
 
@@ -190,7 +192,7 @@ void MainWindow::changeFlagComp()
 
 void MainWindow::on_connectButton_clicked()
 {
-    // worker->doWork();
+
 }
 
 void MainWindow::on_runButton_clicked()

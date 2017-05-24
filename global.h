@@ -5,15 +5,16 @@
 #include <QSemaphore>
 #include <QString>
 
-#define ChanNumber         4
+#define ChanNumber         5
 #define filteredDataNumber 1500
+#define sampleRange        3000
 #define bufferSize         (8192000 * 4)
 
 extern QSemaphore freeSpace;
 extern QSemaphore usedSpace;
 extern QString saveConnectedChannel[ChanNumber];
 
-extern qint16 m_pdmData[ChanNumber][bufferSize];
+extern qint8 m_pdmData[ChanNumber][bufferSize];
 extern volatile bool flag;
 extern volatile bool flagComp;
 

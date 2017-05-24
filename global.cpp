@@ -4,7 +4,7 @@ QSemaphore freeSpace(bufferSize);
 QSemaphore usedSpace(0);
 QString saveConnectedChannel[ChanNumber];
 
-qint16 m_pdmData[ChanNumber][bufferSize];
+qint8 m_pdmData[ChanNumber][bufferSize];
 volatile bool flag     = true;
 volatile bool flagComp = false;
 
