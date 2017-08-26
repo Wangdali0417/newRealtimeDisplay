@@ -39,7 +39,8 @@ HEADERS  += mainwindow.h \
     widget.h \
     dll2xx/ftd2xx.h \
     signalprocessing.h \
-    datareciever.h
+    datareciever.h \
+    signalprocessing.h
 
 FORMS    += mainwindow.ui
 

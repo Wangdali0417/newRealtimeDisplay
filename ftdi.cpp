@@ -135,7 +135,7 @@ void ftdi::seek_header_byte()
     //printf("Looking for header byte in FTDI%c...\n", FTDI_ID);
     qDebug() << "Looking for header byte in FTDI"  << FTDI_ID << "\n";
     while(RxBytes == 0) {
-        FT_GetStatus(ftHandle, &RxBytes, &TxBytes, &EventDWord);
+        FT_GetStatus(ftHandle, &RxBytes, &TxBytes, &EventDWord); // programm stopped here!!!
     }
     //cout << "First Byte Received."<< endl;
     qDebug() << "First Byte Received.\n";

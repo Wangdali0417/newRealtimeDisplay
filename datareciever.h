@@ -20,7 +20,7 @@
 //extern volatile bool flag;
 //extern QVector<QVector<qint16>> m_pdmData;
 
-#define RECORDING_TIME          180          // in seconds
+#define RECORDING_TIME          10          // in seconds
 #define FRAME_SIZE              5           // Size of single packet/frame sent from Hardware
 #define SAMPLING_FREQ           2822581     // sampling frequency of mic. in Hz
 

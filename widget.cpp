@@ -86,7 +86,7 @@ void Widget::initialization()
     axisX->setTitleText("Samples");
 
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(11000,15000);
+    axisY->setRange(10000,20000);
     axisY->setTitleText("Audio level");
 
     m_chart->setAxisX(axisX, m_series);

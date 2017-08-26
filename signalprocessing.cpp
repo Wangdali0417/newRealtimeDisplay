@@ -8,6 +8,7 @@ SignalProcessing::SignalProcessing(QObject *parent) :
     QObject(parent)
 {
     myTimer = new QTimer(this);
+    freezFlag = true;
     // myTimer->setInterval(500);
     // QObject::connect(myTimer, SIGNAL(timeout()), this, SLOT(testDrawCurve()));
     QObject::connect(myTimer, SIGNAL(timeout()), this, SLOT(handleTimeout()));
@@ -26,7 +27,8 @@ void SignalProcessing::handleTimeout()
     this->filter();     // Data filtering
 
     //double time_start = (double)clock();
-    this->drawCurve();  // Draw data on chartview
+    if(freezFlag==true)
+        this->drawCurve();  // Draw data on chartview
     //double time_end = (double)clock();
     //qDebug() << "drawCurve: " << QString::number(time_end - time_start) << "\n";
     myTimer->start();
@@ -171,6 +173,7 @@ void SignalProcessing::setXYSeries(QtCharts::QXYSeries * series)
 {
     this->m_series.append(series);
 }
+
 
 void SignalProcessing::testDrawCurve()
 {

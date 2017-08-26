@@ -29,10 +29,11 @@ void MainWindow::initialization()
     // Step 1. Initialize UI Widget(Buttons)
     // -------------------------------------------------------------- //
     // ui->mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    // ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+     ui->mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     ui->connectButton->setDisabled(false);
     ui->runButton->setDisabled(true);
+    ui->freezeButton->setDisabled(true);
 
     // Step 2.Add subWindows (plot-widgets) to MDIArea-Widget
     // -------------------------------------------------------------- //
@@ -48,6 +49,7 @@ void MainWindow::initialization()
     QObject::connect(dataRecv, SIGNAL(showText(QString)), this, SLOT(showText(QString)), Qt::QueuedConnection);
     QObject::connect(dataRecv, SIGNAL(showConnectedChannel()),this, SLOT(showConnectedChannel()), Qt::QueuedConnection);
     QObject::connect(ui->connectButton, SIGNAL(clicked()), dataRecv, SLOT(dataRecieving()), Qt::QueuedConnection);
+
     recieveThread.start();
 
 
@@ -66,62 +68,61 @@ void MainWindow::initialization()
 
 
 void MainWindow::addWidgetToMDI()
-
 {
-
     for(qint64 chanIndex = 0; chanIndex < ChanNumber; chanIndex++)
-
     {
-
         Widget *widget = new Widget(this, QString::number(chanIndex));
-
         widget->setWindowTitle(QString("Displayer for Channel %1").arg(QString::number(chanIndex)));
-
         widget->m_series->setName(QString("Channel%1Series").arg(chanIndex));
 
         QObject::connect(widget, SIGNAL(mouseDoubleClicked()), this, SLOT(mdiSubWindowShowMaxiOrNorm()), Qt::QueuedConnection);
 
         myWidgetChannel.append(widget);
-
         ui->mdiArea->addSubWindow(myWidgetChannel.at(chanIndex));
-
     }
-
     // ui->mdiArea->tileSubWindows();
-
     this->tileSubWindowsVertically();
-
 }
 
 
 void MainWindow::tileSubWindowsVertically()
-
 {
-
     if (ui->mdiArea->subWindowList().isEmpty())
-
     {
-
         return;
-
     }
-    Qt::WindowFlags flags = Qt::Window|Qt::FramelessWindowHint;
+
+ //   Qt::WindowFlags flags = Qt::Window|Qt::FramelessWindowHint;
     QPoint position(0, 0);
-
-    foreach(QMdiSubWindow *subWindow, ui->mdiArea->subWindowList())
-
+    qint8 subwindowNumber = 0;
+    if(ui->mdiArea->subWindowList().count()<= 4)
     {
-
-        QRect rect(0, 0, ui->mdiArea->width(), ui->mdiArea->height()/ui->mdiArea->subWindowList().count());
-
-        subWindow->setGeometry(rect);
-
-        subWindow->move(position);
-
-        position.setY(position.y() + subWindow->height());
-
+        subwindowNumber = ui->mdiArea->subWindowList().count();
+    }
+    else
+    {
+        subwindowNumber = 4;
     }
 
+    for(qint64 chanIndex = 0; chanIndex < ChanNumber; chanIndex++)
+    {
+        QMdiSubWindow *subWindow = ui->mdiArea->subWindowList().at(chanIndex);
+
+        QRect rect(0, 0, ui->mdiArea->width(),ui->mdiArea->height()/subwindowNumber);
+        subWindow->setGeometry(rect);
+        subWindow->move(position);
+        position.setY(position.y() + subWindow->height());
+        // qDebug() << ui->mdiArea->height();
+    }
+
+//    foreach(QMdiSubWindow *subWindow, ui->mdiArea->subWindowList())
+//    {
+//        QRect rect(0, 0, ui->mdiArea->width(),ui->mdiArea->height()/subwindowNumber);
+//        subWindow->setGeometry(rect);
+//        subWindow->move(position);
+//        position.setY(position.y() + subWindow->height());
+//        qDebug() << ui->mdiArea->height();
+//    }
 }
 void MainWindow::mdiSubWindowShowMaximized()
 {
@@ -199,6 +200,22 @@ void MainWindow::on_runButton_clicked()
 {
     ui->runButton->setDisabled(true);
     ui->connectButton->setDisabled(true);
+    ui->freezeButton->setDisabled(false);
 
     this->changeFlag();
 }
+
+void MainWindow::on_freezeButton_clicked()
+{
+    freezFlag = !freezFlag;
+    if(freezFlag == false)
+    {
+        ui->freezeButton->setText("unfreeze");
+    }
+    else
+    {
+        ui->freezeButton->setText("freeze");
+    }
+}
+
+
